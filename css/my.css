@@ -1,0 +1,22 @@
+.by {
+    font-size: 16px;
+    text-transform: none;
+    margin-top: 350px;
+}
+
+ul.middle {
+    list-style: none;
+    position: relative;
+    top: 50%;
+    line-height: 150%;
+}
+
+ol.middle {
+    position: relative;
+    top: 50%;
+    line-height: 150%;
+}
+
+div.middle {
+    height: 300px;
+}

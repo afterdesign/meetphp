@@ -1,85 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
+<!doctype html>  
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		
+		<title>Memcached + PHP</title>
+		
+		<link href='http://fonts.googleapis.com/css?family=Lato:700italic,400,400italic,700' rel='stylesheet' type='text/css'>
+		
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/my.css">
 
-  <title>afterdesign/meetphp @ GitHub</title>
+		<link rel="stylesheet" href="lib/zenburn.css">
+	</head>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #9e336a;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #61cc95; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #61cc95; }
-    h3 { text-align: center; color: #61cc95; }
-    a { color: #61cc95; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
+	<body>
+		<div id="main">
+			<section>
+				<h1>Memcached + PHP</h1>
+				<h3 class="inverted">"i nie tylko"</h3>
+				<h4 class="by"> (by Rafał 'after.design' Malinowski)</h5>
+			</section>
+		</div>
+		
+		<aside class="controls">
+			<a class="left" href="#">&#x25C4;</a>
+			<a class="right" href="#">&#x25BA;</a>
+			<a class="up" href="#">&#x25B2;</a>
+			<a class="down" href="#">&#x25BC;</a>
+		</aside>
 
-<body>
-  <a href="https://github.com/afterdesign/meetphp"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+		<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+		<div class="progress"><span></span></div>
+		
+		<script src="js/reveal.js"></script>
+		<script src="lib/highlight.js"></script>
+		<script>
+			// Parse the query string into a key/value object
+			var query = {};
+			location.search.replace( /[A-Z0-9]+?=(\w*)/gi, function(a) {
+				query[ a.split( '=' ).shift() ] = a.split( '=' ).pop();
+			} );
 
-  <div id="container">
+			Reveal.initialize({
+				// Display controls in the bottom right corner
+				controls: true,
 
-    <div class="download">
-      <a href="https://github.com/afterdesign/meetphp/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/afterdesign/meetphp/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
+				// Display a presentation progress bar
+				progress: true,
 
-    <h1><a href="https://github.com/afterdesign/meetphp">meetphp</a>
-      <span class="small">by <a href="https://github.com/afterdesign">afterdesign</a></span></h1>
+				// Apply a 3D roll to links on hover
+				rollingLinks: true,
 
-    <div class="description">
-      meetphp.pl #2 presentation about memcached
-    </div>
+				// UI style
+				theme: query.theme || 'default', // default/neon
 
-    
+				// Transition style
+				transition: query.transition || 'default' // default/box/page/concave/linear(2d),
+			});
 
-    
-
-    
-
-    
-
-    
-
-    
-      <h2>Contact</h2>
-      <p> (rafal@malinowski.be)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/afterdesign/meetphp/zipball/master">zip</a> or
-      <a href="https://github.com/afterdesign/meetphp/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/afterdesign/meetphp</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/afterdesign/meetphp">afterdesign/meetphp</a>
-    </div>
-
-  </div>
-
-</body>
+			hljs.initHighlightingOnLoad();
+		</script>		
+	</body>
 </html>
