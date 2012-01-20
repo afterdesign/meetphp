@@ -22,6 +22,425 @@
 				<h3 class="inverted">"i nie tylko"</h3>
 				<h4 class="by"> (by Rafał 'after.design' Malinowski)</h5>
 			</section>
+
+			<section>
+			    <h2>Kim Jestem ?</h2>
+			    <h3>Rafał „after.design” Malinowski</h3>
+			    <section>
+    			    <img src="images/rs_logo.jpg" />
+			    </section>
+	    		<section>
+	    		    <ul class="middle">
+		                <li>Programista JavaScript/PHP/Python</li>
+		                <li>Scrum master</li>
+		                <li>Project manager</li>
+		                <li>Product manager</li>
+		            </ul>
+    			    <p>
+    			        "A kogo potrzeba ? ;)"
+    			    </p>
+			    </section>
+			    <section>
+			        <div class="middle">
+    			        <ul class="middle">
+        			        <li style="">
+            			        <a href="mailto:rafal@malinowski.be">rafal@malinowski.be</a>
+            			    </li>
+            			    <li>
+            			        <a href="http://malinowski.be">http://malinowski.be</a>
+            			    </li>
+        			    </ul>
+    			    </div>
+			    </section>
+			</section>
+
+			<section>
+				<h2>Plan</h2>
+				<div class="middle">
+				    <ol style="position: relative;top: 50%;">
+				        <li style="">
+					        memcached + php
+					    </li>
+					    <li>
+					        "i nie tylko"
+					    </li>
+				    </ul>
+				</div>
+			</section>
+
+			<section>
+			    <section>
+			        <h2>Memcached - kto z tego korzysta ?</h2>
+			        <img src="images/twitter.png" />
+			        <img src="images/flickr.png" />
+			        <img src="images/facebook.png" />
+			        <img src="images/ft.png" />
+			        <img src="images/google.png" />
+			    </section>
+				<section>
+				    <h2>Memcached - co to jest ?</h2>
+					<p style="text-align: justify;">
+						Free & open source, high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.
+						<br />
+						<br />
+						Memcached is an in-m ory key-value store for small chunks of arbitrary data (strings, objects) from results of database calls, API calls, or page rendering.
+					</p>
+				</section>
+				
+				<section>
+					<h2>Memcached - po ludzku fajny</h2>
+					<div class="middle">
+    					<ul class="middle">
+    					    <li>to jest "tylko" serwer</li>
+    					    <li>key/value storage</li>
+    					    <li>instancje nie są świadome swojego istnienia</li>
+    					    <li>prosty w użyciu protokół (<a target="_blank" href="https://github.com/afterdesign/phpmemcached">binarny</a> i tekstowy)</li>
+	    				</ul>
+	    			</div>
+				</section>
+				
+				<section>
+    				<h2>Memcached - po ludzku nie fajny</h2>
+    				<div class="middle">
+    					<ul class="middle">
+    					    <li>brak autoryzacji/ssl</li>
+    					    <li>brak ustandarozywanych algorytmów</li>
+    					    <li>brak ustandaryzowanych bibliotek</li>
+    					    <li>klucze max 250 znaków</li>
+    					</ul>
+					</div>
+				</section>
+				
+				<section>
+				    <h2>Metody memcached</h2>
+                    <ul style="width: 30%;float: left;margin-left: 25%;">
+                    <li>set</li>
+                    <li>add</li>
+                    <li>replace</li>
+                    <li>append</li>
+                    <li>prepend</li>
+                    <li>cas</li>
+                    <li>get</li>
+                    <li>gets</li>
+                    </ul>
+                    <ul style="width: 30%;float: left;">
+                    <li>delete</li>
+                    <li>incr/decr</li>
+                    <li>stats</li>
+                    <li>stats items</li>
+                    <li>stats slabs</li>
+                    <li>stats sizes</li>
+                    <li>flush_all</li>
+                    </ul>
+				</section>
+				
+			</section>
+			
+			<section>
+			    <h2>Protokół binarny</h2>
+			    <section>
+<pre style="font-size: 19px;"><code>
+Byte/     0       |       1       |       2       |       3       |
+   /              |               |               |               |
+  |0 1 2 3 4 5 6 7|0 1 2 3 4 5 6 7|0 1 2 3 4 5 6 7|0 1 2 3 4 5 6 7|
+  +---------------+---------------+---------------+---------------+
+ 0| Magic         | Opcode        | Key length                    |
+  +---------------+---------------+---------------+---------------+
+ 4| Extras length | Data type     | vbucket id                    |
+  +---------------+---------------+---------------+---------------+
+ 8| Total body length                                             |
+  +---------------+---------------+---------------+---------------+
+12| Opaque                                                        |
+  +---------------+---------------+---------------+---------------+
+16| CAS                                                           |
+  |                                                               |
+  +---------------+---------------+---------------+---------------+
+  Total 24 bytes
+</code></pre>
+                </section>
+                <section>
+                <h3>Zemsta programisty</h3>
+<pre style="font-size: 25px;"><code>/* use lowest byte for flags */
+#define MMC_SERIALIZED	0x0001
+#define MMC_COMPRESSED	0x0002
+
+/* use second lowest byte to indicate data type */
+#define MMC_TYPE_STRING	0x0000
+#define MMC_TYPE_BOOL	0x0100
+/*#define MMC_TYPE_INT	0x0200*/
+#define MMC_TYPE_LONG	0x0300
+/*#define MMC_TYPE_DATE	0x0400*/
+/*#define MMC_TYPE_BYTE	0x0500*/
+/*#define MMC_TYPE_FLOAT	0x0600*/
+#define MMC_TYPE_DOUBLE	0x0700
+/*#define MMC_TYPE_BLOB	0x0800*/
+</code></pre>
+                </section>
+			</section>
+			
+			<section>
+			    <h2>Algorytmy wyboru serwera #1</h2>
+			    <h3>modulo</h3>
+			    <section>
+    			    <div class="middle">
+    			        <ul class="middle">
+    			            <li>
+    			    	        crc32($key) % count($servers)
+    			    	    </li>
+    			    	    <li>
+    			    	        <a target="_blank" href="http://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function">fnv-1a</a>($key) % count($servers)
+    			    	    </li>
+    			        </ul>
+    			    </div>
+    			</section>
+    			<section>
+        			<div class="middle" style="float: left;">
+        			    <ul class="middle">
+        			        <li>
+        				        migracja danych
+        				    </li>
+        				    <li>
+        				        kolizje (<a target="_blank" href="http://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function">fnv-1a</a>)
+        				    </li>
+        			    </ul>
+        			</div>
+        			<img src="images/kyanu.jpg" />
+    			</section>
+			</section>
+
+			<section>
+			    <h2>Algorytmy wyboru serwera #2</h2>
+				<h3>Consistent Hashing (php-memcache)</h3>
+				<section>
+<pre style="font-size: 30px;"><code>
+$serverData = array("10.0.1.6:11211", 
+                    "10.0.1.7:11211");
+</code></pre>
+				</section>
+    			<section>
+<pre style="font-size: 30px;"><code>$consistentPoints = 160; (php-memcache)
+    			    
+$serverHash = crc32('10.0.1.6:11211'.'-');
+$server = '10.0.1.6:11211';
+$points = array();
+
+$points[crc32(0, $serverHash)] = $server;
+.
+.
+.
+$points[crc32(n, $serverHash)] = $server;
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>$points = array();
+$points[262294557] = '10.0.1.6:11211';
+$points[2024111243] = '10.0.1.6:11211';
+$points[3786157361] = '10.0.1.6:11211';
+
+$points[416897118] = '10.0.1.7:11211';
+$points[1876846792] = '10.0.1.7:11211';
+$points[4141300082] = '10.0.1.7:11211';
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>
+
+$sortedPoints = array_keys($points);
+sort($sortedPoints);
+
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>$sortedPoints = array();
+
+$sortedPoints[0] = 262294557;
+$sortedPoints[1] = 416897118;
+$sortedPoints[2] = 1876846792;
+$sortedPoints[3] = 2024111243;
+$sortedPoints[4] = 3786157361;
+$sortedPoints[5] = 4141300082;
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>$consistentBuckets = 1024; (php-memcache)
+    			    			    
+$pointSearch = 0xffffffff / 1024;
+//0xffffffff -> (pow(2,32)-1, max int)
+
+$buckets[0] = search($pointSearch * 0);
+.
+.
+.
+$buckets[n] = search($pointSearch * n);
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>
+search(4194303 * 0);
+$sortedPoints[0] = 262294557;
+$sortedPoints[0] > 0; //True
+$buckets[0] = $points[$sortedPoints[0]];
+$buckets[0] = '10.0.1.6:11211';
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>search(4194303 * 100);
+$sortedPoints[1] = 416897118;
+$sortedPoints[2] = 1876846792;
+
+$sortedPoints[1] > 419430300; //False
+$sortedPoints[2] > 419430300; //True
+$buckets[100] = $points[$sortedPoints[2]];
+$buckets[100] = '10.0.1.6:11211';
+</code></pre>
+    			</section>
+    			
+    			<section>
+<pre style="font-size: 30px;"><code>
+$key = md5(1);
+$key = "c4ca4238a0b923820dcc509a6f75849b";
+$searchKey = crc32($key);
+
+$server = $buckets[$searchKey % 1024];
+//coś w stylu "10.0.1.6:11211"
+
+</code></pre>
+    			</section>
+    			<section>
+    			    <div class="middle" style="float: left;">
+    			    	<ul class="middle">
+    			    	    <li>mniejsza migracja danych</li>
+    			    	</ul>
+    			    </div>
+    			    <img src="images/yodawg.jpg" />
+    			</section>
+			</section>
+			
+			<section>
+			    <h2> Biblioteki</h2>
+			    <section>
+    			    <div class="middle">
+    			    	<ul class="middle">
+    			    	    <li><a target="_blank" href="http://pecl.php.net/package/memcache">php-memcache</a> 3.0.6 beta w repo debiana</li>
+    			    	    <li><a target="_blank" href="http://pecl.php.net/package/memcached">php-memcached</a> 1.0.2 stable w repo debiana</li>
+    			    	    <li class="fragment"><a target="_blank" href="https://github.com/php-memcached-dev/php-memcached">php-memcached</a> 2.0.0 beta - github</li>
+    			    	</ul>
+    			    </div>
+			    </section>
+			    
+			    <section>
+    			    <table style="width: 900px;">
+        			    <tr>
+        			        <td style="width: 300px;"></td>
+    			            <td style="width: 300px;">memcache</td>
+    			            <td>memcached</td>
+        			    </tr>
+        			    <tr>
+        			        <td>append/prepend</td>
+        			        <td></td>
+        			        <td>x</td>
+        			    </tr>
+        			    <tr>
+        			        <td>set/get per serwer</td>
+        			        <td></td>
+        			        <td>x</td>
+        			    </tr>
+        			    <tr>
+        			        <td>incr/decr</td>
+        			        <td>x</td>
+        			        <td>x</td>
+        			    </tr>
+        			    <tr>
+        			        <td>dane liczbowe</td>
+        			        <td>konwersja</td>
+        			        <td>x</td>
+        			    </tr>
+    			    </table>
+			    </section>
+			    <section>
+			        <div class="middle">
+			        	<ul class="middle">
+			        	    <li>brak zgodności algorytmów wyboru serwera</li>
+			        	    <li>brak zgodności kompresowania danych</li>
+			        	    <li>zgodność typów danych ?</li>
+			        	</ul>
+			        </div>
+			    </section>
+			</section>
+    			
+			</section>
+			
+			<section>
+    			<h2>Memcache i zend framework</h2>
+<pre style="font-size: 16px;"><code>
+resources.cachemanager.cache.frontend.name = Core
+resources.cachemanager.cache.frontend.options.lifetime = 1800
+resources.cachemanager.cache.frontend.options.automatic_serialization = true
+
+resources.cachemanager.cache.backend.name = Memcached
+
+resources.cachemanager.cache.backend.options.servers.1.host = 10.20.0.122
+resources.cachemanager.cache.backend.options.servers.1.tcp_port = 11211
+resources.cachemanager.cache.backend.options.servers.1.udp_port = 0
+resources.cachemanager.cache.backend.options.servers.1.persistent = true
+resources.cachemanager.cache.backend.options.servers.1.weight = 1
+resources.cachemanager.cache.backend.options.servers.1.timeout = 1
+resources.cachemanager.cache.backend.options.servers.1.retry_interval = 15
+resources.cachemanager.cache.backend.options.servers.1.status = true
+
+</code></pre>
+			</section>
+			
+			<section>
+			    <h2>Czy potrzebóję memcached ? </h2>
+			    <section>
+	    		    <p class="fragment">Nie ?</p>
+    			    <img class="fragment" src="images/t.jpg" />
+			    </section>
+			    <section>
+			        <p>"premature optimization is the root of all evil" (Donald Knuth)</p>
+			        <img class="fragment" src="images/ale.png" />
+			    </section>
+			    
+			    <section>
+			        <p>Wyjątek ?</p>
+			        <p>Shardowanie baz danych</p>
+			        <img class="fragment"  src="images/jackie.png" />
+			    </section>
+			</section>
+			
+			<section>
+			    <h2>Najlepsza biblioteka ?</h2>
+			    <section>
+				    <p class="fragment">Nie istnieje ?</p>
+				    <img class="fragment" src="images/t.jpg" />
+			    </section>
+			    <section>
+			        <p>Co jest potrzebne ?</p>
+			        <p class="fragment">Coś oparte o libmemcached</p>
+			        <p class="fragment">A i tak nie będzie zgodne między językami.</p>
+			        <img class="fragment" src="images/r.jpg" />
+			    </section>
+			</section>
+			
+			<section>
+				<h1>THE END</h1>
+				<a href="http://spkr8.com/t/9179" target="_blank">http://spkr8.com/t/9179 - rate me</a>
+				<a href="http://malinowski.be/meetphp/" target="_blank">http://malinowski.be/meetphp/ - prezentacja</a>
+			</section>
+			
+			<section>
+			<h1>
+			JavaScript
+			Will Rule The World !
+			</h1>
+			</section>
 		</div>
 		
 		<aside class="controls">
